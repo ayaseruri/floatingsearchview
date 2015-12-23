@@ -30,5 +30,7 @@
         <attr name="floatingSearch_viewTextColor" format="color"/>
         <attr name="floatingSearch_hintTextColor" format="color"/>
         <attr name="floatingSearch_suggestionRightIconColor" format="color"/>
+
+        <attr name="floatingSearch_setQueryAsTitle" format="boolean"/>
     </declare-styleable>
 </resources>

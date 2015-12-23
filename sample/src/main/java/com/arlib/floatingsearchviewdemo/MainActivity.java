@@ -1,6 +1,5 @@
 package com.arlib.floatingsearchviewdemo;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSearchAction() {
+            public void onSearchAction(String query) {
 
                 Log.d(TAG, "onSearchAction()");
             }
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override
-            public void onFocus() {
+            public void onFocus(String query) {
 
                 //show suggestions when search bar gains focus (typically history suggestions)
                 mSearchView.swapSuggestions(DataHelper.getHistory(MainActivity.this, 3));
@@ -230,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerStateChanged(int newState) {
             }
         });
+
+        mSearchView.setSearchBarTitle("title");
     }
 
     private void refreshBackgroundColor(String colorName, String colorValue){

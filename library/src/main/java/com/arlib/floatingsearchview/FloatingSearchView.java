@@ -147,6 +147,7 @@ public class FloatingSearchView extends FrameLayout {
     private EditText mSearchInput;
     private String mTitleText;
     private boolean mIsTitleSet;
+    private boolean mSetQueryAsTitle;
     private int mSearchInputTextColor = -1;
     private int mSearchInputHintColor = -1;
     private View mSearchInputParent;
@@ -249,7 +250,7 @@ public class FloatingSearchView extends FrameLayout {
          * Called when the current search has completed
          * as a result of pressing search key in the keyboard.
          */
-        void onSearchAction();
+        void onSearchAction(String query);
     }
 
     /**
@@ -295,7 +296,7 @@ public class FloatingSearchView extends FrameLayout {
          * Called when the search bar has gained focus
          * and listeners are now active.
          */
-        void onFocus();
+        void onFocus(String query);
 
         /**
          * Called when the search bar has lost focus
@@ -430,6 +431,7 @@ public class FloatingSearchView extends FrameLayout {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FloatingSearchView);
 
         try {
+            mSetQueryAsTitle = a.getBoolean(R.styleable.FloatingSearchView_floatingSearch_setQueryAsTitle, false);
 
             setDismissOnOutsideClick(true);
 
@@ -620,7 +622,7 @@ public class FloatingSearchView extends FrameLayout {
                     setSearchFocusedInternal(false);
 
                     if (mSearchListener != null)
-                        mSearchListener.onSearchAction();
+                        mSearchListener.onSearchAction(mSearchInput.getText().toString());
 
                     return true;
                 }
@@ -966,7 +968,7 @@ public class FloatingSearchView extends FrameLayout {
      * will appear in the soft-keyboard or not.
      *
      * <p>Notice that if this is set to false,
-     * {@link OnSearchListener#onSearchAction()} onSearchAction}, will
+     * {@link OnSearchListener#onSearchAction(String query)} onSearchAction}, will
      * not get called.</p>
      *
      * @param show to show the search button in
@@ -1093,6 +1095,10 @@ public class FloatingSearchView extends FrameLayout {
 
             @Override
             public void onItemSelected(SearchSuggestion item) {
+
+                if(mSetQueryAsTitle){
+                    mSearchInput.setText(item.getBody());
+                }
 
                 setSearchFocusedInternal(false);
 
@@ -1338,7 +1344,7 @@ public class FloatingSearchView extends FrameLayout {
             Util.showSoftKeyboard(getContext(), mSearchInput);
 
             if(mFocusChangeListener!=null)
-                mFocusChangeListener.onFocus();
+                mFocusChangeListener.onFocus(mSearchInput.getText().toString());
         }else{
 
             transitionOutLeftSection(true);
@@ -1362,12 +1368,14 @@ public class FloatingSearchView extends FrameLayout {
 
             mClearButton.setVisibility(View.INVISIBLE);
 
-            if(mSearchInput.length()!=0)
-                mSearchInput.setText("");
-
             if(mIsTitleSet) {
                 mSkipTextChangeEvent = true;
                 mSearchInput.setText(mTitleText);
+            }
+
+            if(!mSetQueryAsTitle){
+                if(mSearchInput.length()!=0)
+                    mSearchInput.setText("");
             }
 
             if(mFocusChangeListener!=null) {
