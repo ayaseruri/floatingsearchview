@@ -1,3 +1,30 @@
+I changed :
+
+void onSearchAction() ==> onSearchAction(String query)
+
+void onFocus() ==> onFocus(String query)
+
+those can help you to handle search event better;
+
+i also add 'floatingSearch_setQueryAsTitle' attributable, the search edittext will not clean the edittext while search if you set the attributable 'true';
+
+to import my edition just:
+
+```
+allprojects {
+  repositories {
+    ...
+    maven { url "https://jitpack.io" }
+  }
+}
+
+dependencies {
+	        compile 'com.github.ayaseruri:floatingsearchview:v1.0'
+	}
+```
+
+thank you
+
 Floating Search View [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Floating%20Search%20View-green.svg?style=true)](https://android-arsenal.com/details/1/2842)
 =============
 
@@ -52,7 +79,7 @@ Usage
 
 The left action can be configured as follows:
 
-Add 
+Add
 ```xml
    app:floatingSearch_leftActionMode="[insert one of the options from table below]"
 ```
@@ -116,12 +143,12 @@ In the menu resource, set items' ```app:showAsAction="[insert one of the options
     </tr>   
 </table>
 
-Listen for item selections 
+Listen for item selections
 ```  
    mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
       @Override
       public void onMenuItemSelected(MenuItem item) {                  
-            
+
       }
    });
 ```
@@ -131,23 +158,23 @@ Listen for item selections
 
 **Configure suggestion item:**
 
-First, implement [SearchSuggestion](https://github.com/arimorty/floatingsearchview/blob/master/library/src/main/java/com/arlib/floatingsearchview/suggestions/model/SearchSuggestion.java) 
+First, implement [SearchSuggestion](https://github.com/arimorty/floatingsearchview/blob/master/library/src/main/java/com/arlib/floatingsearchview/suggestions/model/SearchSuggestion.java)
 
 *Optional*:
 
 Set a callback for when a given suggestion is bound to the suggestion list.
 
-``` 
+```
    mSearchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
             @Override
             public void onBindSuggestion(IconImageView leftIcon, BodyTextView bodyText, SearchSuggestion item, int itemPosition) {
 
                        //here you can set some attributes for the suggestion's left icon and text. For example,
-                       //you can choose your favorite image-loading library for setting the left icon's image. 
+                       //you can choose your favorite image-loading library for setting the left icon's image.
             }
 
         });
-``` 
+```
 
 <br/>
 
